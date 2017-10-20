@@ -1,6 +1,6 @@
 # CS411F17 Project
 
-We'll be using [Django](https://www.djangoproject.com/) for our project, running Python 3.4
+We'll be using [Django](https://www.djangoproject.com/) for our project, running Python 3.6
 
 ## Setting up a development environment
 
