@@ -2,3 +2,4 @@ httplib2==0.10.3
 oauth2==1.9.0.post1
 six==1.11.0
 yelp==1.0.2
+django==1.11.6
