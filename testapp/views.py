@@ -15,7 +15,16 @@ def index(request):
 
 def info(request):
   print("RESTAURANTS", request.POST)
-  return HttpResponse("INFO")
+  city = request.POST['location']
+  term = request.POST['term']
+  data = (
+  	"city is ", 
+  	city,
+  	" term is ", 
+  	term
+  )
+
+  return HttpResponse(data)
 
 
 def query_yelp(data):
