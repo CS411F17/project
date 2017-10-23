@@ -4,9 +4,19 @@ from django.shortcuts import redirect
 
 # Create your views here.
 
-class testView(TemplateView):
+class TestView(TemplateView):
 	template_name = ('home.html')
 
 
-def loginRedirect(request):
-   return redirect("/testapp")
+def index(request):
+   print("REQUEST", request.body)
+   return HttpResponse("INDEX")
+
+
+def info(request):
+  print("RESTAURANTS", request.POST)
+  return HttpResponse("INFO")
+
+
+def query_yelp(data):
+  pass

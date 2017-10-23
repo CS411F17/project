@@ -18,7 +18,7 @@ from django.contrib import admin
 from testapp import views
 
 urlpatterns = [
-	url(r'^$', views.loginRedirect, name='loginRedirect'),
+	url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
-    url(r'^testapp/', include('testapp.urls')),
+    url(r'^restaurants/', include('testapp.urls')),
 ]
