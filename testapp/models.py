@@ -8,3 +8,11 @@ class Restaurants(models.Model):
 
 	def __str__(self):
 		return self.restaurantName
+
+
+class UserRequest(models.Model):
+  location = models.CharField(max_length=15)
+  term = models.CharField(max_length=15)
+
+  def __str__(self):
+    return (self.location, self.term)
