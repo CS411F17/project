@@ -5,6 +5,7 @@
 	<form action="info/" method="post">
   {% csrf_token %}
 		<input type="text" name="location" value="{{ source.location }}">
+		<input type="text" name="term" value="{{ source.term }}">
 		<button type="submit">Submit</button>
 	</form>
 </div>
