@@ -18,13 +18,16 @@ def info(request):
   print("RESTAURANTS", request.POST)
   city = request.POST['location']
   term = request.POST['term']
-  data = [city, term]
+  data = {
+    'city': city,
+    'term': term
+  }
 
   save_user_request(data)
   return HttpResponse(data)
 
 def save_user_request(data):
-  user_request = UserRequest(location=data[0], term=data[1])
+  user_request = UserRequest(location=data.city, term=data.term)
   user_request.save()
 
 def query_yelp(data):
