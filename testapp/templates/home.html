@@ -2,8 +2,9 @@
 
 <div class = "container">
 	<h1>Please enter city:</h1>
-	<form method="post">
-		<input type="text">
+	<form action="info/" method="post">
+  {% csrf_token %}
+		<input type="text" name="location" value="{{ source.location }}">
 		<button type="submit">Submit</button>
 	</form>
 </div>
