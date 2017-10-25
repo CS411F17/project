@@ -1,12 +1,16 @@
+# django framework packages
 from __future__ import print_function
 from django.shortcuts import render, HttpResponse
 from django.views.generic import  TemplateView
 from django.shortcuts import redirect
 
+# our own packages
 from testapp.models import UserRequest
 
+# installed & built-in packages
 import argparse
 import json
+import os
 import pprint
 import requests
 import sys
@@ -14,17 +18,17 @@ import urllib
 import yaml
 
 try:
-    # For Python 3.0 and later
+    # for Python 3.0 and later
     from urllib.error import HTTPError
     from urllib.parse import quote
     from urllib.parse import urlencode
 except ImportError:
-    # Fall back to Python 2's urllib2 and urllib
+    # fall back to Python 2's urllib2 and urllib
     from urllib2 import HTTPError
     from urllib import quote
     from urllib import urlencode
 
-import os
+
 dirname = os.path.dirname(os.path.realpath(__file__))
 filename = os.path.join(dirname, "secrets.yaml")
 
@@ -36,8 +40,7 @@ with open(filename, 'r') as stream:
     except yaml.YAMLError as exc:
         print(exc)
 
-# TODO: Get client id and secret from yml
-# and store them in the variables below
+
 CLIENT_ID = yml['CLIENT_ID']
 CLIENT_SECRET = yml['CLIENT_SECRET']
 
