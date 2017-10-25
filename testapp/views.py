@@ -36,11 +36,11 @@ with open(filename, 'r') as stream:
     except yaml.YAMLError as exc:
         print(exc)
 
-
 # TODO: Get client id and secret from yml
 # and store them in the variables below
 CLIENT_ID = yml['CLIENT_ID']
 CLIENT_SECRET = yml['CLIENT_SECRET']
+
 
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
@@ -70,9 +70,27 @@ def info(request):
   #yelp_call() returns dictionary of restaurant and its information
   restaurant_dic = yelp_call(term, city)
 
-  restaurant_name = restaurant_dic.get('id')
+  restaurant_info = ''
+  restaurant_name = restaurant_dic.get('name')
+  location_info = " "
+  location = restaurant_dic.get('location')
+  for info in location:
+  	if location[info] != '':
+	  	if info == 'display_address':
+	  		location_info += "Address: " + location[info][0] + "<br/>"
+	  		continue
+	  	location_info += str(info) + ": " + str(location[info]) + "<br/>"
+  phone = restaurant_dic.get('phone')
+  price = restaurant_dic.get('price')
+  rating = str(restaurant_dic.get('rating'))
+
+  restaurant_info = ("Restaurant name: " + restaurant_name + "<br/>"
+  					+ "Phone number: " + phone + "<br/>"
+  					+ "Rating: " + rating + "<br/>"
+  					+ location_info)
+
   save_user_request(data)
-  return HttpResponse(restaurant_name)
+  return HttpResponse(restaurant_info)
 
 def save_user_request(data):
   user_request = UserRequest(location=data[0], term=data[1])
