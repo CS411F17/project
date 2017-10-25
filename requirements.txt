@@ -2,12 +2,16 @@ certifi==2017.7.27.1
 chardet==3.0.4
 Django==1.11.6
 djangorestframework==3.7.1
+fancycompleter==0.7
 httplib2==0.10.3
 idna==2.6
 oauth2==1.9.0.post1
+pdbpp==0.9.1
+Pygments==2.2.0
 pytz==2017.2
 PyYAML==3.12
 requests==2.18.4
 six==1.11.0
 urllib3==1.22
+wmctrl==0.3
 yelp==1.0.2

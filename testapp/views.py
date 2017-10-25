@@ -32,14 +32,15 @@ yml = ''
 # Create your views here.
 with open(filename, 'r') as stream:
     try:
-        yml = yaml.load(stream))
+        yml = yaml.load(stream)
     except yaml.YAMLError as exc:
         print(exc)
 
+
 # TODO: Get client id and secret from yml
 # and store them in the variables below
-CLIENT_ID = ''
-CLIENT_SECRET = ''
+CLIENT_ID = yml['CLIENT_ID']
+CLIENT_SECRET = yml['CLIENT_SECRET']
 
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
