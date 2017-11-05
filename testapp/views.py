@@ -71,9 +71,10 @@ def info(request):
   term = request.POST['term']
   data = [city, term]
   #yelp_call() returns dictionary of restaurant and its information
-  restaurant_dic = yelp_call(term, city)
+  restaurants = yelp_call(term, city)
+  
   save_user_request(data)
-  return render(request, 'basic.html', {'restaurant_dic': restaurant_dic})
+  return render(request, 'basic.html', {'restaurants': restaurants})
 
 def save_user_request(data):
   user_request = UserRequest(location=data[0], term=data[1])
@@ -164,26 +165,22 @@ def query_api(term, location):
         location (str): The location of the business to query.
     """
     bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
-
     response = search(bearer_token, term, location)
-
     businesses = response.get('businesses')
-
     
     if not businesses:
         print(u'No businesses for {0} in {1} found.'.format(term, location))
         return
 
-    response_dic={}
+    responses={}
     for business in businesses:
     	business_id=business['id']
-	#print(u'{0} businesses found, querying business info or the top result "{1}" ...'.format(len(businesses), business_id))
-    	test_result = get_business(bearer_token, business_id)
+    	business_result = get_business(bearer_token, business_id)
     	print(u'Result for business "{0}" found:'.format(business_id))
-    	pprint.pprint(test_result, indent=2)
-    	response_dic[business_id] = test_result
+    	pprint.pprint(business_result, indent=2)
+    	responses[business_id] = business_result
 
-    return response_dic
+    return responses
 
 def yelp_call(keyTerm, location):
     try:
