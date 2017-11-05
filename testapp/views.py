@@ -54,7 +54,7 @@ GRANT_TYPE = 'client_credentials'
 #Default terms for debugging purposes
 DEFAULT_TERM = 'restaurant'
 DEFAULT_LOCATION = 'Boston, MA'
-SEARCH_LIMIT = 1
+SEARCH_LIMIT = 10
 
 class TestView(TemplateView):
 	template_name = ('home.html')
@@ -72,28 +72,8 @@ def info(request):
   data = [city, term]
   #yelp_call() returns dictionary of restaurant and its information
   restaurant_dic = yelp_call(term, city)
-
-  restaurant_info = ''
-  restaurant_name = restaurant_dic.get('name')
-  location_info = " "
-  location = restaurant_dic.get('location')
-  for info in location:
-  	if location[info] != '':
-	  	if info == 'display_address':
-	  		location_info += "Address: " + location[info][0] + "<br/>"
-	  		continue
-	  	location_info += str(info) + ": " + str(location[info]) + "<br/>"
-  phone = restaurant_dic.get('phone')
-  price = restaurant_dic.get('price')
-  rating = str(restaurant_dic.get('rating'))
-
-  restaurant_info = ("Restaurant name: " + restaurant_name + "<br/>"
-  					+ "Phone number: " + phone + "<br/>"
-  					+ "Rating: " + rating + "<br/>"
-  					+ location_info)
-
   save_user_request(data)
-  return HttpResponse(restaurant_info)
+  return render(request, 'basic.html', {'restaurant_dic': restaurant_dic})
 
 def save_user_request(data):
   user_request = UserRequest(location=data[0], term=data[1])
@@ -189,19 +169,21 @@ def query_api(term, location):
 
     businesses = response.get('businesses')
 
+    
     if not businesses:
         print(u'No businesses for {0} in {1} found.'.format(term, location))
         return
 
-    business_id = businesses[0]['id']
+    response_dic={}
+    for business in businesses:
+    	business_id=business['id']
+	#print(u'{0} businesses found, querying business info or the top result "{1}" ...'.format(len(businesses), business_id))
+    	test_result = get_business(bearer_token, business_id)
+    	print(u'Result for business "{0}" found:'.format(business_id))
+    	pprint.pprint(test_result, indent=2)
+    	response_dic[business_id] = test_result
 
-    print(u'{0} businesses found, querying business info ' \
-        'for the top result "{1}" ...'.format(
-            len(businesses), business_id))
-    response = get_business(bearer_token, business_id)
-    print(u'Result for business "{0}" found:'.format(business_id))
-    pprint.pprint(response, indent=2)
-    return response
+    return response_dic
 
 def yelp_call(keyTerm, location):
     try:
