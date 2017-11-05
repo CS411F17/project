@@ -1,6 +1,6 @@
 
 {% block body %}
-  {% for restaurant_id, restaurant in restaurant_dic.items %}
+  {% for restaurant_id, restaurant in restaurants.items %}
     <p> 
     Name: {{restaurant.name}} </br>
     Address: {{restaurant.location.address1}} {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}} </br>
