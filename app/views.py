@@ -1,5 +1,4 @@
 # django framework packages
-from __future__ import print_function
 from django.shortcuts import render, HttpResponse
 from django.views.generic import  TemplateView
 from django.shortcuts import redirect
@@ -10,8 +9,8 @@ from testapp.models import UserRequest
 # installed & built-in packages
 import argparse
 import json
+import logging
 import os
-import pprint
 import requests
 import sys
 import urllib
@@ -28,22 +27,24 @@ except ImportError:
     from urllib import quote
     from urllib import urlencode
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('VIEWS')
+
 
 dirname = os.path.dirname(os.path.realpath(__file__))
 filename = os.path.join(dirname, "secrets.yaml")
 
-yml = ''
-# Create your views here.
+
 with open(filename, 'r') as stream:
     try:
         yml = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
+        logger.debug('Loaded secrets from yaml file')
+    except yaml.YAMLError as e:
+        logger.debug(e)
 
 
 CLIENT_ID = yml['CLIENT_ID']
 CLIENT_SECRET = yml['CLIENT_SECRET']
-
 
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
@@ -51,38 +52,53 @@ BUSINESS_PATH = '/v3/businesses/'  # Business ID will come after slash.
 TOKEN_PATH = '/oauth2/token'
 GRANT_TYPE = 'client_credentials'
 
-#Default terms for debugging purposes
+# default terms for debugging purposes
 DEFAULT_TERM = 'restaurant'
 DEFAULT_LOCATION = 'Boston, MA'
+# TODO: allow user to input how many search terms they want
 SEARCH_LIMIT = 10
 
+
 class TestView(TemplateView):
-	template_name = ('home.html')
+    template_name = ('home.html')
 
 
 def index(request):
-   print("REQUEST", request.body)
-   return HttpResponse("INDEX")
+    logger.debug('Request data: {}'.format(request))
+    return HttpResponse("INDEX")
 
 
 def info(request):
-  print("RESTAURANTS", request.POST)
-  city = request.POST['location'].title()
-  term = request.POST['term']
-  data = [city, term]
-  #yelp_call() returns dictionary of restaurant and its information
-  restaurants = yelp_call(term, city)
+    logger.debug('Restaurants: {}'.format(request.POST))
+    city = request.POST['location'].title()
+    term = request.POST['term']
+    data = [city, term]
+    save_user_request(data)
 
-  save_user_request(data)
-  return render(request, 'results.html', {'restaurants': restaurants, 'city': data[0], 'term':data[1]})
+    restaurants = yelp_call(term, city)
+
+    response = {
+        'restaurants': restaurants,
+        'city': data[0],
+        'term': data[1]
+    }
+
+    return render(
+        request,
+        'results.html',
+        response
+    )
+
 
 def save_user_request(data):
   user_request = UserRequest(location=data[0], term=data[1])
   user_request.save()
+  logging.info('Saved user request data')
 
 
 def obtain_bearer_token(host, path):
-    """Given a bearer token, send a GET request to the API.
+    """
+    Given a bearer token, send a GET request to the API.
     Args:
         host (str): The domain host of the API.
         path (str): The path of the API after the domain.
@@ -107,8 +123,10 @@ def obtain_bearer_token(host, path):
     bearer_token = response.json()['access_token']
     return bearer_token
 
+
 def request(host, path, bearer_token, url_params=None):
-    """Given a bearer token, send a GET request to the API.
+    """
+    Given a bearer token, send a GET request to the API.
     Args:
         host (str): The domain host of the API.
         path (str): The path of the API after the domain.
@@ -125,14 +143,16 @@ def request(host, path, bearer_token, url_params=None):
         'Authorization': 'Bearer %s' % bearer_token,
     }
 
-    print(u'Querying {0} ...'.format(url))
+    logger.debug('Querying {0} ...'.format(url))
 
     response = requests.request('GET', url, headers=headers, params=url_params)
 
     return response.json()
 
+
 def search(bearer_token, term, location):
-    """Query the Search API by a search term and location.
+    """
+    Query the Search API by a search term and location.
     Args:
         term (str): The search term passed to the API.
         location (str): The search location passed to the API.
@@ -147,8 +167,10 @@ def search(bearer_token, term, location):
     }
     return request(API_HOST, SEARCH_PATH, bearer_token, url_params=url_params)
 
+
 def get_business(bearer_token, business_id):
-    """Query the Business API by a business ID.
+    """
+    Query the Business API by a business ID.
     Args:
         business_id (str): The ID of the business to query.
     Returns:
@@ -157,6 +179,7 @@ def get_business(bearer_token, business_id):
     business_path = BUSINESS_PATH + business_id
 
     return request(API_HOST, business_path, bearer_token)
+
 
 def query_api(term, location):
     """Queries the API by the input values from the user.
@@ -169,18 +192,19 @@ def query_api(term, location):
     businesses = response.get('businesses')
     
     if not businesses:
-        print(u'No businesses for {0} in {1} found.'.format(term, location))
+        logger.debug('No businesses for {0} in {1} found.'.format(term, location))
         return
 
-    responses={}
+    responses = {}
     for business in businesses:
     	business_id = business['id']
     	business_result = get_business(bearer_token, business_id)
-    	print(u'Result for business "{0}" found:'.format(business_id))
-    	pprint.pprint(business_result, indent=2)
+    	logger.debug('Result for business "{0}" found:'.format(business_id))
+    	logger.debug('{}'.format(business_result))
     	responses[business_id] = business_result
 
     return responses
+
 
 def yelp_call(keyTerm, location):
     try:
@@ -194,6 +218,7 @@ def yelp_call(keyTerm, location):
             )
         )
     return returnData
+
 
 if __name__ == '__main__':
     main()
