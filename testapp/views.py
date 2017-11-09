@@ -72,7 +72,7 @@ def info(request):
   data = [city, term]
   #yelp_call() returns dictionary of restaurant and its information
   restaurants = yelp_call(term, city)
-  
+
   save_user_request(data)
   return render(request, 'basic.html', {'restaurants': restaurants})
 
@@ -174,7 +174,7 @@ def query_api(term, location):
 
     responses={}
     for business in businesses:
-    	business_id=business['id']
+    	business_id = business['id']
     	business_result = get_business(bearer_token, business_id)
     	print(u'Result for business "{0}" found:'.format(business_id))
     	pprint.pprint(business_result, indent=2)
