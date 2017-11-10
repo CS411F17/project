@@ -1,11 +1,11 @@
 {% block body %}
 
 <div class = "container">
-	<h1>Please enter term and city:</h1>
+	<h1>Search using a term and location:</h1>
 	<form action="info/" method="post">
   {% csrf_token %}
-    <input type="text" name="term" value="{{ source.term }}">
-    <input type="text" name="location" value="{{ source.location }}">
+    <input type="text" name="term" value="{{ source.term }}" placeholder="Term">
+    <input type="text" name="location" value="{{ source.location }}" placeholder="Location">
 		<button type="submit">Submit</button>
 	</form>
 </div>

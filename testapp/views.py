@@ -56,7 +56,7 @@ DEFAULT_TERM = 'restaurant'
 DEFAULT_LOCATION = 'Boston, MA'
 SEARCH_LIMIT = 10
 
-class TestView(TemplateView):
+class SearchView(TemplateView):
 	template_name = ('home.html')
 
 
@@ -67,11 +67,11 @@ def index(request):
 
 def info(request):
   print("RESTAURANTS", request.POST)
-  city = request.POST['location']
+  location = request.POST['location']
   term = request.POST['term']
-  data = [city, term]
+  data = [location, term]
   #yelp_call() returns dictionary of restaurant and its information
-  restaurants = yelp_call(term, city)
+  restaurants = yelp_call(term, location)
 
   save_user_request(data)
   return render(request, 'basic.html', {'restaurants': restaurants})
