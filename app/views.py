@@ -1,10 +1,10 @@
 # django framework packages
 from django.shortcuts import render, HttpResponse
-from django.views.generic import  TemplateView
+from django.views.generic import TemplateView
 from django.shortcuts import redirect
-
 # our own packages
-from app.models import UserRequest
+from testapp.models import UserRequest, UserInfo
+from allauth.socialaccount.models import SocialAccount, SocialToken
 
 # installed & built-in packages
 import argparse
@@ -15,6 +15,7 @@ import requests
 import sys
 import urllib
 import yaml
+import facebook
 
 try:
     # for Python 3.0 and later
@@ -57,6 +58,10 @@ DEFAULT_TERM = 'restaurant'
 DEFAULT_LOCATION = 'Boston, MA'
 # TODO: allow user to input how many search terms they want
 SEARCH_LIMIT = 10
+
+
+class TestView(TemplateView):
+	template_name = ('home.html')
 
 
 def index(request):
@@ -230,6 +235,33 @@ def yelp_call(keyTerm, location):
         )
     return returnData
 
+
+def get_facebook_info(user):
+    access_token = SocialToken.objects.filter(account__user=user, account__provider='facebook').first()
+    graph = facebook.GraphAPI(access_token=access_token, version=2.10)
+    fb_user_info = graph.get_object(id='me', fields='name, location, hometown, work, likes, friends, education, religion, birthday, age_range')
+    fb_info = ['name', 'location', 'hometown', 'friends', 'education', 'birthday', 'religion', 'age_range']
+    fb_dict = {}
+    user_info = UserInfo()
+    for k in fb_user_info:
+        if k in fb_info:
+            if k == 'education':
+                temp = fb_user_info['education']
+                user_info.education = temp[-1]['school']['name']
+            if k == 'location':
+                user_info.location = fb_user_info['location']['name']
+            if k == 'hometown':
+                user_info.hometown = fb_user_info['hometown']['name']
+            if k == 'friends':
+                user_info.num_friends = fb_user_info['friends']['summary']['total_count']
+            if k == 'name':
+                user_info.name = fb_user_info['name']
+            if k == 'age_range':
+                user_info.age_range = fb_user_info['age_range']['min']
+            if k == 'religion':
+                user_info.religion = fb_user_info['religion']
+    user_info.save()
+    
 
 if __name__ == '__main__':
     main()
