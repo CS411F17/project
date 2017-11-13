@@ -1,0 +1,30 @@
+body {
+  padding-top: 10rem;
+  background-image: url("food_bg.jpg");
+  position:fixed;
+  top:0;
+  left:0;
+  height:90%;
+  width:100%;
+  background-size:100%;
+  background-repeat: no-repeat;
+  z-index:0;
+}
+
+.project-name {
+  padding: 3rem 1.5rem;
+}
+
+h1 {
+	text-align: center;
+	text-shadow:
+		-1px -1px 0 #fff,
+		1px -1px 0 #fff,
+		-1px 1px 0 #fff,
+		1px 1px 0 #fff;
+}
+
+.container-form{
+	padding-top:50px;
+}
+

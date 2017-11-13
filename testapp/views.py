@@ -67,14 +67,14 @@ def index(request):
 
 def info(request):
   print("RESTAURANTS", request.POST)
-  city = request.POST['location']
+  city = request.POST['location'].title()
   term = request.POST['term']
   data = [city, term]
   #yelp_call() returns dictionary of restaurant and its information
   restaurants = yelp_call(term, city)
 
   save_user_request(data)
-  return render(request, 'basic.html', {'restaurants': restaurants})
+  return render(request, 'results.html', {'restaurants': restaurants, 'city': data[0], 'term':data[1]})
 
 def save_user_request(data):
   user_request = UserRequest(location=data[0], term=data[1])
