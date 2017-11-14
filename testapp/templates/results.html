@@ -1,0 +1,89 @@
+
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{term}} in {{city}}</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="{% static "testapp/results_style.css" %}" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+<!-- Search again? -->
+<div class="container">
+	<h2>Search again?</h2>
+</div>
+
+<!-- Search form (term, city, submit button) -->
+<form class="container" action="" method="post" id="needs-validation" novalidate> {% csrf_token %}
+	<div class="form-row">
+		<div class="col-6">
+			<input class="form-control" type="text" id="term_validation" name="term" placeholder="Find burgers, dessert, breakfast..." value="{{source.term}}" required>
+			<div class="invalid-feedback">
+				Please provide a valid search term
+			</div>
+		</div>
+		<div class="col-4">
+			<input class="form-control" type="text" id="city_validation" name="location" placeholder="City" value="{{source.location}}" required>
+			<div class="invalid-feedback">
+				Please provide a valid city
+			</div>
+		</div>
+		<div class="col">
+			<button type="submit" class="btn btn-danger">Submit</button>
+		</div>
+	</div>
+	<h4> Showing results for {{term}} in {{city}}... </h4>
+	<hr>
+</form>
+
+<!-- Restaurants display -->
+	{% for restaurant_id, restaurant in restaurants.items %}
+		<div class="container">
+		<p>
+		Name: {{restaurant.name}} </br>
+		Address: {{restaurant.location.address1}} {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}} </br>
+		Phone: {{restaurant.display_phone}} </br>
+		Price: {{restaurant.price}} </br>
+		Rating: {{restaurant.rating}} </br>
+		<a href={{restaurant.url}}> Click here to go to yelp page for {{restaurant.name}}</a> </br>
+		{% for photo in restaurant.photos %}
+			<img src= {{photo}} alt="Restaurant photo" width="300" height="300"></img>
+		{% endfor %}
+		</br>
+		</br>
+		<hr>
+		</p>
+		</div>
+	{% endfor %}
+
+</body>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var form = document.getElementById('needs-validation');
+    form.addEventListener('submit', function(event) {
+      if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  }, false);
+})();
+</script>
+
+</html>
+{% endblock %}
