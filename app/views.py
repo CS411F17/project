@@ -59,13 +59,19 @@ DEFAULT_LOCATION = 'Boston, MA'
 SEARCH_LIMIT = 10
 
 
-class TestView(TemplateView):
-    template_name = ('home.html')
-
-
 def index(request):
     logger.debug('Request data: {}'.format(request))
-    return HttpResponse("INDEX")
+    return render(
+        request,
+        'home.html'
+    )
+
+
+def restaurants(request):
+    return render(
+        request,
+        'restaurants.html'
+    )
 
 
 def info(request):
@@ -91,9 +97,9 @@ def info(request):
 
 
 def save_user_request(data):
-  user_request = UserRequest(location=data[0], term=data[1])
-  user_request.save()
-  logging.info('Saved user request data')
+    user_request = UserRequest(location=data[0], term=data[1])
+    user_request.save()
+    logging.info('Saved user request data')
 
 
 def obtain_bearer_token(host, path):
