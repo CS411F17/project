@@ -15,38 +15,18 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body>
-	<script>
-		window.fbAsyncInit = function() {
-    FB.init({
-    appId      : '1070406826462651',
-    cookie     : true,
-    xfbml      : true,
-    version    : 'v2.11'
-    });
-    FB.AppEvents.logPageView();  
-  };
-
-		(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
 	<!-- Navigation bar -->
 	<nav class="navbar navbar-expand-md navbar-light bg-faded fixed-top">
-		<a class="navbar-brand" href="#">Welcome</a>
+		<a class="navbar-brand" href="/">Home</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 		  <ul class="navbar-nav mr-auto">
 		  </ul>
+		  <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Log Out</button>
 		</div>
 	</nav>
 
@@ -55,18 +35,28 @@
   <div class="my-container">
     <h1>What should I eat?</h1>
   </div>
-	<div class="col-md-12 text-center">
-		<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id)) return;
-				js = d.createElement(s); js.id = id;
-				js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11&appId=1070406826462651';
-				fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-			</script>
-			<div class="fb-login-button" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
-	</div>
+
+	<!-- Search form (term, city, button) -->
+	<form class="container-form" action="info/" method="post" id="needs-validation" novalidate> {% csrf_token %}
+		<div class="form-row">
+			<div class="col-6">
+				<input class="form-control" type="text" id="term_validation" name="term" placeholder="Find burgers, dessert, breakfast..." value="{{source.term}}" required>
+				<div class="invalid-feedback">
+					Please provide a valid search term
+				</div>
+			</div>
+			<div class="col-4">
+				<input class="form-control" type="text" id="city_validation" name="location" placeholder="City" value="{{source.location}}" required>
+				<div class="invalid-feedback">
+					Please provide a valid city
+				</div>
+			</div>
+			<div class="col">
+				<button type="submit" class="btn btn-danger">Submit</button>
+			</div>
+		</div>
+	</form>
+
 </main>
 
 
