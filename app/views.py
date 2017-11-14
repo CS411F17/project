@@ -4,7 +4,7 @@ from django.views.generic import  TemplateView
 from django.shortcuts import redirect
 
 # our own packages
-from testapp.models import UserRequest
+from app.models import UserRequest
 
 # installed & built-in packages
 import argparse
@@ -120,7 +120,12 @@ def obtain_bearer_token(host, path):
         'content-type': 'application/x-www-form-urlencoded',
     }
     response = requests.request('POST', url, data=data, headers=headers)
-    bearer_token = response.json()['access_token']
+
+    try:
+        bearer_token = response.json()['access_token']
+    except KeyError as e:
+        logger.debug("Invalid response: {}".format(e))
+
     return bearer_token
 
 
