@@ -5,7 +5,8 @@ We'll be using [Django](https://www.djangoproject.com/) for our project, running
 ## Setting up a development environment
 
 This is the Entity Relationship Diagram
-![Alt text](https://github.com/CS411F17/project/master/ERD.png "Title")
+
+![ERD](https://github.com/CS411F17/project/blob/master/ERD.png)
 
 ### macOS
 
