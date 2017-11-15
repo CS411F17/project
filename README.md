@@ -4,6 +4,9 @@ We'll be using [Django](https://www.djangoproject.com/) for our project, running
 
 ## Setting up a development environment
 
+This is the Entity Relationship Diagram
+![Alt text](https://github.com/CS411F17/project/master/ERD.png "Title")
+
 ### macOS
 
 1. [Install Git](http://git-scm.com/download/mac) if you haven't done so already
