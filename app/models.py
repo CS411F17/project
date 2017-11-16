@@ -17,3 +17,16 @@ class UserRequest(models.Model):
 
     def __str__(self):
         return (self.location, self.term)
+
+
+class UserInfo(models.Model):
+    name = models.CharField(max_length = 50)
+    location = models.CharField(max_length = 30)
+    hometown = models.CharField(max_length = 30)
+    num_friends = models.IntegerField()
+    age_range = models.IntegerField()
+    religion = models.CharField(max_length = 20)
+    education = models.CharField(max_length = 30)
+
+    def __str__(self):
+        return self.name
