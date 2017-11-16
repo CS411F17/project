@@ -84,6 +84,8 @@ def info(request):
     city = request.POST['location'].title()
     term = request.POST['term']
     data = [city, term]
+    user = request.user.id
+    get_facebook_info(user)
     save_user_request(data)
 
     restaurants = yelp_call(term, city)
