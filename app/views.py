@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 # our own packages
-from testapp.models import UserRequest, UserInfo
+from app.models import UserRequest, UserInfo
 from allauth.socialaccount.models import SocialAccount, SocialToken
 
 # installed & built-in packages
