@@ -28,6 +28,13 @@ h1 {
 		1px 1px 0 #fff;
 }
 
+h2 {
+	width: 30%;
+	margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .container-form{
 	padding-top:50px;
 }
