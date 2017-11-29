@@ -35,7 +35,19 @@ h2 {
     margin-right: auto;
 }
 
+h3 {
+	font-size: 130%;
+	display:inline;
+}
+
+
 .container-form{
 	padding-top:50px;
 }
 
+#container-filter{
+	position: relative;
+	top:6px;
+	left:8px;
+	display:inline;
+}

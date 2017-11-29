@@ -42,9 +42,45 @@
 		<div class="col">
 			<button type="submit" class="btn btn-danger">Submit</button>
 		</div>
+			<div id="container-filter">
+			  <form action="" method="post" name="myForm">
+			  	<h>Price:</h>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group1[]" value="$">$
+				    </label>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group1[]" value="$$">$$
+				    </label>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group1[]" value="$$$">$$$
+				    </label>
+				     <label class="checkbox-inline">
+				      <input type="checkbox" name="group1[]" value="$$$$">$$$$
+			    </label>
+			    &nbsp
+			    <h>Rating:</h>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group2[]" value="1">1.0+
+				    </label>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group2[]" value="2">2.0+
+				    </label>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group2[]" value="3">3.0+
+				    </label>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group2[]" value="4">4.0+
+				    </label>
+			    &nbsp
+			    <h>Hours:</h>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" name="group3[]" value="open">Currently Open
+				    </label>
+			  </form>
+			</div>
 	</div>
 	<h4> Showing results for {{term}} in {{city}}... </h4>
-	<hr>
+	<hr style= 'display: block;width: 62%; margin-left: 333px;' />
 </form>
 
 <!-- Restaurants display -->
@@ -83,6 +119,11 @@
     }, false);
   }, false);
 })();
+
+// Short script for allowing only selection of 1 filter for rating filter
+$('input[name="group2[]"]').on('change', function() {
+    $('input[name="group2[]"]').not(this).prop('checked', false);
+});
 </script>
 
 </html>
