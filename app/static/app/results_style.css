@@ -9,6 +9,14 @@ h2 {
 }
 
 h4 {
-  padding-top:30px;
-  padding-bottom:20px;
+	margin-left: 333px; 
+  padding-top:20px;
+  padding-bottom:15px;
+}
+
+#container-filter{
+	position: relative;
+	top:6px;
+	left:8px;
+	display:inline;
 }
