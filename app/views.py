@@ -86,15 +86,23 @@ def info(request):
     city = request.POST['location'].title()
     term = request.POST['term']
     data = [city, term]
-    
+
     save_user_request(data)
 
     restaurants = yelp_call(term, city)
-    
-    #check if filters are applied; if none are applied then skip filtering_restaurants() call
-    #also skip filtering_restaurants() call if restaurants is None type to avoid error
-    advanced_filters = [request.POST.getlist('group1[]'), request.POST.get('group2[]'), request.POST.get('group3[]')]
-    if(advanced_filters[0] == [] and advanced_filters[1] == None and advanced_filters[2] == None) or (restaurants == None):
+
+    # check if filters are applied; if none are applied
+    # then skip filtering_restaurants() call
+    # also skip filtering_restaurants() call
+    # if restaurants is None type to avoid error
+    advanced_filters = [
+        request.POST.getlist('group1[]'),
+        request.POST.get('group2[]'),
+        request.POST.get('group3[]')
+    ]
+
+    if (advanced_filters[0] == [] and advanced_filters[1] is None and advanced_filters[2] is None) \
+       or restaurants is None:
             filtered_restaurants = restaurants
     else:
         filtered_restaurants = filtering_restaurants(request, restaurants)
@@ -104,7 +112,7 @@ def info(request):
         'city': data[0],
         'term': data[1],
     }
-    
+
     return render(
         request,
         'results.html',
@@ -248,11 +256,19 @@ def yelp_call(keyTerm, location):
 
 
 def get_facebook_info(user):
-    access_token = SocialToken.objects.filter(account__user=user, account__provider='facebook').first()
+    access_token = SocialToken.objects.filter(
+        account__user=user,
+        account__provider='facebook'
+    ).first()
+
     graph = facebook.GraphAPI(access_token=access_token, version=2.10)
-    fb_user_info = graph.get_object(id='me', fields='name, location, hometown, work, likes, friends, education, religion, birthday, age_range')
     fb_info = ['name', 'location', 'hometown', 'friends', 'education', 'birthday', 'religion', 'age_range']
-    fb_dict = {}
+
+    fb_user_info = graph.get_object(
+        id='me',
+        fields=', '.join(fb_info)
+    )
+
     user_info = UserInfo()
     for k in fb_user_info:
         if k in fb_info:
@@ -273,39 +289,57 @@ def get_facebook_info(user):
                 user_info.religion = fb_user_info['religion']
     user_info.save()
 
+
 def filtering_restaurants(request, restaurants):
-    #restaurants search filters where [0] is price filter, [1] is rating filter, and [2] is hours filter
-    advanced_filters = [request.POST.getlist('group1[]'), request.POST.get('group2[]'), request.POST.get('group3[]')]
+    # restaurants search filters where [0] is price filter
+    # [1] is rating filter
+    # [2] is hours filter
+    advanced_filters = [
+        request.POST.getlist('group1[]'),
+        request.POST.get('group2[]'),
+        request.POST.get('group3[]')
+    ]
 
-    #initialize with 'checker' key to check filter initialization
-    dict1 = {'checker': 'None'} #price filtered dict
-    dict2 = {'checker': 'None'} #rating filtered dict
-    dict3 = {'checker': 'None'} #hours filtered dict
-    #creating dictionaries with applied filters
+    # initialize with 'checker' key to check filter initialization
+    dict1 = {'checker': 'None'}  # price filtered dict
+    dict2 = {'checker': 'None'}  # rating filtered dict
+    dict3 = {'checker': 'None'}  # hours filtered dict
+
+    # creating dictionaries with applied filters
     if advanced_filters[0] != []:
-        dict1 = {restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items() if restaurant['price'] in advanced_filters[0]}
-    if advanced_filters[1] != None:
-        dict2 = {restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items() if float(restaurant['rating']) >= float(advanced_filters[1])}
-    if advanced_filters[2] != None:
-        dict3 = {restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items() if restaurant['hours'][-1]['is_open_now'] == True}
+        dict1 = {
+            restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items()
+            if restaurant['price'] in advanced_filters[0]
+        }
+    if advanced_filters[1] is not None:
+        dict2 = {
+            restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items()
+            if float(restaurant['rating']) >= float(advanced_filters[1])
+        }
+    if advanced_filters[2] is not None:
+        dict3 = {
+            restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items()
+            if restaurant['hours'][-1]['is_open_now'] is True
+        }
 
-    #combine included dict keys into list for processing
+    # combine included dict keys into list for processing
     keys_1 = []
     keys_1.append(set(dict1.keys()))
     keys_1.append(set(dict2.keys()))
     keys_1.append(set(dict3.keys()))
 
-    #only include filters that are applied
+    # only include filters that are applied
     keys_lst = [keys for keys in keys_1 if 'checker' not in keys]
 
-    #finding intersection of dictionary keys from applied advanced filters
+    # finding intersection of dictionary keys from applied advanced filters
     intersection = restaurants.keys()
     for k in keys_lst:
         intersection = intersection & k
-    #generate final list of filtered dictionary results
-    filtered_restaurants = {restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items() if restaurant_id in intersection}
+
+    # generate final list of filtered dictionary results
+    filtered_restaurants = {
+        restaurant_id: restaurant for restaurant_id, restaurant in restaurants.items()
+        if restaurant_id in intersection
+    }
 
     return filtered_restaurants
-
-if __name__ == '__main__':
-    main()
