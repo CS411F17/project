@@ -36,3 +36,7 @@ class UserInfo(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def fields(self):
+        return {k: v for k, v in vars(self).items() if k != '_state'}

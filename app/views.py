@@ -1,48 +1,34 @@
 # django framework packages
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.shortcuts import redirect
 # our own packages
 from app.models import UserRequest, UserInfo
-from allauth.socialaccount.models import SocialAccount, SocialToken
+from allauth.socialaccount.models import SocialToken
 
 # installed & built-in packages
-import argparse
-import json
 import logging
 import os
 import requests
 import sys
-import urllib
 import yaml
 import facebook
 
-try:
-    # for Python 3.0 and later
-    from urllib.error import HTTPError
-    from urllib.parse import quote
-    from urllib.parse import urlencode
-except ImportError:
-    # fall back to Python 2's urllib2 and urllib
-    from urllib2 import HTTPError
-    from urllib import quote
-    from urllib import urlencode
+# for Python 3.0 and later
+from urllib.error import HTTPError
+from urllib.parse import quote
+from urllib.parse import urlencode
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('VIEWS')
 
-
 dirname = os.path.dirname(os.path.realpath(__file__))
 filename = os.path.join(dirname, "secrets.yaml")
-
-
 with open(filename, 'r') as stream:
     try:
         yml = yaml.load(stream)
         logger.debug('Loaded secrets from yaml file')
     except yaml.YAMLError as e:
         logger.debug(e)
-
 
 CLIENT_ID = yml['CLIENT_ID']
 CLIENT_SECRET = yml['CLIENT_SECRET']
@@ -60,8 +46,9 @@ DEFAULT_LOCATION = 'Boston, MA'
 SEARCH_LIMIT = 10
 
 
+# TODO: Refactor this as a function
 class TestView(TemplateView):
-	template_name = ('home.html')
+    template_name = ('home.html')
 
 
 def index(request):

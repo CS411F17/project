@@ -87,14 +87,14 @@
 	{% for restaurant_id, restaurant in restaurants.items %}
 		<div class="container">
 		<p>
-		Name: {{restaurant.name}} </br>
-		Address: {{restaurant.location.address1}} {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}} </br>
-		Phone: {{restaurant.display_phone}} </br>
-		Price: {{restaurant.price}} </br>
-		Rating: {{restaurant.rating}} </br>
-		<a href={{restaurant.url}}> Click here to go to yelp page for {{restaurant.name}}</a> </br>
+		<b>Name:</b> {{restaurant.name}} </br>
+		<b>Address:</b> {{restaurant.location.address1}} {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}} </br>
+		<b>Phone:</b> {{restaurant.display_phone}} </br>
+		<b>Price:</b> {{restaurant.price}} </br>
+		<b>Rating:</b> {{restaurant.rating}} </br>
+		<a href={{restaurant.url}}> Yelp Page for <b>{{restaurant.name}}</b></a> </br>
 		{% for photo in restaurant.photos %}
-			<img src= {{photo}} alt="Restaurant photo" width="300" height="300"></img>
+			<img src= {{photo}} alt="Restaurant Photo" width="300" height="300"></img>
 		{% endfor %}
 		</br>
 		</br>
