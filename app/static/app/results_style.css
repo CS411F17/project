@@ -30,19 +30,5 @@ h4 {
     width:210px;
 }
 
-#container-bttn-1{
-	position: relative;
-	float:right;
-	margin-right: -30px;
-	margin-top: -260px;
-}
-
-.container-bttn-2{
-	position: relative !important;
-	float:right !important;
-	margin-top: -190px !important;
-	margin-right: -30px !important;
-}
-
 
 
