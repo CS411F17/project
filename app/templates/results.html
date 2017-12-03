@@ -42,43 +42,44 @@
 		<div class="col">
 			<button type="submit" class="btn btn-danger">Submit</button>
 		</div>
-			<div id="container-filter">
-			  <form action="" method="post" name="myForm">
-			  	<h>Price:</h>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group1[]" value="$">$
-				    </label>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group1[]" value="$$">$$
-				    </label>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group1[]" value="$$$">$$$
-				    </label>
-				     <label class="checkbox-inline">
-				      <input type="checkbox" name="group1[]" value="$$$$">$$$$
-			    </label>
-			    &nbsp
-			    <h>Rating:</h>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group2[]" value="1">1.0+
-				    </label>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group2[]" value="2">2.0+
-				    </label>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group2[]" value="3">3.0+
-				    </label>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group2[]" value="4">4.0+
-				    </label>
-			    &nbsp
-			    <h>Hours:</h>
-				    <label class="checkbox-inline">
-				      <input type="checkbox" name="group3[]" value="open">Currently Open
-				    </label>
-			  </form>
-			</div>
 	</div>
+	<input type='button' id='filter-button' class="btn btn-link" value='Filter by...'>
+		<div id="container-filter" style="display: none">
+		  <form action="" method="post" name="myForm">
+		  	<h>Price:</h>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group1[]" value="$">$
+			    </label>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group1[]" value="$$">$$
+			    </label>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group1[]" value="$$$">$$$
+			    </label>
+			     <label class="checkbox-inline">
+			      <input type="checkbox" name="group1[]" value="$$$$">$$$$
+		    </label>
+		    &nbsp
+		    <h>Rating:</h>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group2[]" value="1">1.0+
+			    </label>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group2[]" value="2">2.0+
+			    </label>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group2[]" value="3">3.0+
+			    </label>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group2[]" value="4">4.0+
+			    </label>
+		    &nbsp
+		    <h>Hours:</h>
+			    <label class="checkbox-inline">
+			      <input type="checkbox" name="group3[]" value="open">Currently Open
+			    </label>
+		  </form>
+		</div>
 	<h4> Showing results for {{term}} in {{city}}... </h4>
 	<hr style= 'display: block;width: 62%; margin-left: 333px;' />
 </form>
@@ -115,7 +116,19 @@
 
 </body>
 <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+// JavaScript for showing filter criteria on click
+var button = document.getElementById('filter-button');
+button.onclick = function() {
+    var div = document.getElementById('container-filter');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+};
+
+// JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
   window.addEventListener('load', function() {
