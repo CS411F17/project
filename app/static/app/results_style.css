@@ -1,7 +1,11 @@
+
+.header{
+	overflow: hidden;
+}
+
 body {
   padding-top: 1.5rem;
 }
-
 
 h2 {
 	text-align:left;
@@ -14,9 +18,31 @@ h4 {
   padding-bottom:15px;
 }
 
+
 #container-filter{
 	position: relative;
 	top:6px;
 	left:8px;
 	display:inline;
 }
+
+#container-bttns .btn{
+    width:210px;
+}
+
+#container-bttn-1{
+	position: relative;
+	float:right;
+	margin-right: -30px;
+	margin-top: -260px;
+}
+
+.container-bttn-2{
+	position: relative !important;
+	float:right !important;
+	margin-top: -190px !important;
+	margin-right: -30px !important;
+}
+
+
+

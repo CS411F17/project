@@ -1,0 +1,68 @@
+{% block body %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Restaurant Page</title>
+		<!-- Required meta tags -->
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <!-- <link href="{% static "app/results_style.css" %}" rel="stylesheet" type="text/css"/> -->
+  <link href="{% static "app/final_style.css" %}" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-light bg-faded fixed-top">
+		<a class="navbar-brand" href="/">Home</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+		  <ul class="navbar-nav mr-auto">
+		  </ul>
+		  <!-- Logout function redirects to homepage -->
+		  <form method="post" action="{% url 'account_logout' %}">
+			  {% csrf_token %}
+			  {% if redirect_field_value %}
+			  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+			  {% endif %}
+		 	  <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Log Out</button>
+		   </form>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h2>You picked {{ restaurant.name }}. Good Choice! </h2>
+		<hr>
+		<p>
+			<b>Address:</b> {{restaurant.location.address1}} {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}} </br>
+			<b>Phone:</b> {{restaurant.display_phone}} </br>
+			<b>Price:</b> {{restaurant.price}} </br>
+			<b>Rating:</b> {{restaurant.rating}} </br>
+		</p>
+		<p>
+			{% for photo in restaurant.photos %}
+				<img src= {{photo}} alt="Restaurant photo" width="300" height="300"></img>
+				&nbsp
+				&nbsp
+			{% endfor %}
+		</p>
+		<br>
+		<a href={{restaurant.url}} class="btn btn-primary btn-block">Click Here to Go to Yelp Page for <b>{{restaurant.name}}</b></a>
+
+
+	</div>
+	
+</body>
+
+
+
+</html>
+{% endblock %}
