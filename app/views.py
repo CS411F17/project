@@ -12,6 +12,7 @@ import requests
 import sys
 import yaml
 import facebook
+import ast
 
 # for Python 3.0 and later
 from urllib.error import HTTPError
@@ -104,6 +105,18 @@ def info(request):
         request,
         'results.html',
         response
+    )
+
+
+def final(request):
+    #function to render user restaurant selection 
+    picked_restaurant = request.POST.get("restaurant")
+    #have to use ast library to convert because restaurant dict is passed as string by template
+    rest_dict = ast.literal_eval(picked_restaurant)
+    return render(
+        request,
+        'choice.html',
+        {'restaurant': rest_dict},
     )
 
 
