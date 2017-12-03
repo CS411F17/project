@@ -40,7 +40,7 @@
 <main role="main" class="container">
 	<!-- Project name -->
   <div class="my-container">
-    <h1>What should I eat?</h1>
+    <h1>What would you like to eat?</h1>
   </div>
 
 	<!-- Search form (term, city, button) -->
@@ -99,6 +99,17 @@
 				      <input type="checkbox" name="group3[]" value="open">Currently Open
 				    </label>
 			  </form>
+			</div>
+	</form>
+
+	<form class="container-form" action="pure_luck/" method="post" id="needs-validation" novalidate> {% csrf_token %}
+		<div class="form-row">
+			<div class="col-6">
+				<input class="form-control" type="text" id="city_validation" name="location" placeholder="City" value="{{source.location}}" required>
+				<div class="invalid-feedback">Please provide a valid city</div>
+			</div>
+			<div class="col-6">
+				<button type="submit" class="btn btn-danger">I'm Feeling Lucky</button>
 			</div>
 	</form>
 
