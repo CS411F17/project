@@ -31,13 +31,13 @@ def _generate_fake_user(num_fakes, chunk):
             'hometown': '',
         }
 
-        user['id'] = [i]
+        user['id'] = i
         user['name'] = fake.name()
         user['location'] = fake.address()
         user['num_friends'] = fake.random_int(min=0, max=5000)
         user['age_range'] = fake.random_int(min=14, max=100)
         user['religion'] = ''
-        user['education'] = "{} University".format(fake.city())
+        user['education'] = "{} University".format(fake.state())
         user['hometown'] = "{}, {}".format(fake.city(), fake.state())
         fake_users.append(user)
 
