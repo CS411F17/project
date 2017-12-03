@@ -61,7 +61,10 @@
 			<div class="col">
 				<button type="submit" class="btn btn-danger">Submit</button>
 			</div>
-			<div id="container-filter">
+		</div>
+		<!-- Filter by -->
+		<input type='button' id='filter-button' class="btn btn-link" value='Filter by...'>
+			<div id="container-filter" style="display: none">
 			  <form action="" method="post" name="myForm">
 			  	<h>Price:</h>
 				    <label class="checkbox-inline">
@@ -97,7 +100,6 @@
 				    </label>
 			  </form>
 			</div>
-		</div>
 	</form>
 
 </main>
@@ -106,7 +108,19 @@
 
 
 <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+// JavaScript for showing filter criteria on click
+var button = document.getElementById('filter-button');
+button.onclick = function() {
+    var div = document.getElementById('container-filter');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+};
+
+// JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
   window.addEventListener('load', function() {
