@@ -165,11 +165,10 @@ def pure_luck(request):
 
     restaurants = yelp_call(term, location)
     single = restaurants[random.choice(list(restaurants.keys()))]
-
     import pdb
     pdb.set_trace()
     response = {
-        'restaurants': single,
+        'restaurants': [single],  # XXX: Don't do this :)
         'location': data[0],
         'term': data[1],
     }
@@ -346,18 +345,20 @@ def query_api(term, location):
     bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
     response = search(bearer_token, term, location)
     businesses = response.get('businesses')
-    
+
     if not businesses:
-        logger.debug('No businesses for {0} in {1} found.'.format(term, location))
+        logger.debug(
+            'No businesses for {0} in {1} found.'.format(term, location)
+        )
         return
 
     responses = {}
     for business in businesses:
-    	business_id = business['id']
-    	business_result = get_business(bearer_token, business_id)
-    	logger.debug('Result for business "{0}" found:'.format(business_id))
-    	logger.debug('{}'.format(business_result))
-    	responses[business_id] = business_result
+        business_id = business['id']
+        business_result = get_business(bearer_token, business_id)
+        logger.debug('Result for business "{0}" found:'.format(business_id))
+        logger.debug('{}'.format(business_result))
+        responses[business_id] = business_result
 
     return responses
 
