@@ -13,13 +13,14 @@ import sys
 import yaml
 import facebook
 import ast
+import random
 
 # for Python 3.0 and later
 from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.parse import urlencode
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('VIEWS')
 
 dirname = os.path.dirname(os.path.realpath(__file__))
@@ -57,6 +58,128 @@ def index(request):
     return render(
         request,
         'home.html'
+    )
+
+
+def pure_luck(request):
+    logger.debug('Request data: {}'.format(request))
+    location = request.POST['location'].title()
+
+    # taken from:
+    # https://www.yelp.com/developers/documentation/v3/all_category_list
+    # under the Food (all) list
+    # XXX: Come up with a better way to store this
+    categories = [
+        'Acai Bowls',
+        'Backshop',
+        'Bagels',
+        'Bakeries',
+        'Beer, Wine & Spirits',
+        'Bento',
+        'Beverage Store',
+        'Breweries',
+        'Brewpubs',
+        'Bubble Tea',
+        'Butcher',
+        'CSA',
+        'Chimney Cakes',
+        'Churros',
+        'Cideries',
+        'Coffee & Tea',
+        'Coffee & Tea Supplies',
+        'Coffee Roasteries',
+        'Convenience Stores',
+        'Cupcakes',
+        'Custom Cakes',
+        'Delicatessen',
+        'Desserts',
+        'Distilleries',
+        'Do-It-Yourself Food',
+        'Donairs',
+        'Donuts',
+        'Empanadas',
+        'Ethical Grocery',
+        'Farmers Market',
+        'Fishmonger',
+        'Food Delivery Services',
+        'Food Trucks',
+        'Friterie',
+        'Gelato',
+        'Grocery',
+        'Hawker Centre',
+        'Honey',
+        'Ice Cream & Frozen Yogurt',
+        'Imported Food',
+        'International Grocery',
+        'Internet Cafes',
+        'Japanese Sweets',
+        'Taiyaki',
+        'Juice Bars & Smoothies',
+        'Kiosk',
+        'Kombucha',
+        'Milkshake Bars',
+        'Mulled Wine',
+        'Nasi Lemak',
+        'Organic Stores',
+        'Panzerotti',
+        'Parent Cafes',
+        'Patisserie/Cake Shop',
+        'Piadina',
+        'Poke',
+        'Pretzels',
+        'Salumerie',
+        'Shaved Ice',
+        'Shaved Snow',
+        'Smokehouse',
+        'Specialty Food',
+        'Candy Stores',
+        'Cheese Shops',
+        'Chocolatiers & Shops',
+        'Dagashi',
+        'Dried Fruit',
+        'Frozen Food',
+        'Fruits & Veggies',
+        'Health Markets',
+        'Herbs & Spices',
+        'Macarons',
+        'Meat Shops',
+        'Olive Oil',
+        'Pasta Shops',
+        'Popcorn Shops',
+        'Seafood Markets',
+        'Tofu Shops',
+        'Street Vendors',
+        'Sugar Shacks',
+        'Tea Rooms',
+        'Torshi',
+        'Tortillas',
+        'Water Stores',
+        'Wineries',
+        'Wine Tasting Room',
+        'Zapiekanka'
+    ]
+
+    term = random.choice(categories)
+    data = [location, term]
+    save_user_request(data)
+
+    restaurants = yelp_call(term, location)
+    key = random.choice(list(restaurants.keys()))
+    single = restaurants[key]
+
+    # XXX: Refactor this
+    response = {
+        'restaurants': {
+            key: single,
+        },
+        'city': data[0],
+        'term': data[1],
+    }
+
+    return render(
+        request,
+        'results.html',
+        response
     )
 
 
@@ -225,18 +348,20 @@ def query_api(term, location):
     bearer_token = obtain_bearer_token(API_HOST, TOKEN_PATH)
     response = search(bearer_token, term, location)
     businesses = response.get('businesses')
-    
+
     if not businesses:
-        logger.debug('No businesses for {0} in {1} found.'.format(term, location))
+        logger.debug(
+            'No businesses for {0} in {1} found.'.format(term, location)
+        )
         return
 
     responses = {}
     for business in businesses:
-    	business_id = business['id']
-    	business_result = get_business(bearer_token, business_id)
-    	logger.debug('Result for business "{0}" found:'.format(business_id))
-    	logger.debug('{}'.format(business_result))
-    	responses[business_id] = business_result
+        business_id = business['id']
+        business_result = get_business(bearer_token, business_id)
+        logger.debug('Result for business "{0}" found:'.format(business_id))
+        logger.debug('{}'.format(business_result))
+        responses[business_id] = business_result
 
     return responses
 
