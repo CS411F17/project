@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Restaurant Homepage</title>
+	<title>Phoodable</title>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,7 +19,7 @@
 <body>
 	<!-- Navigation bar -->
 	<nav class="navbar navbar-expand-md navbar-light bg-faded fixed-top">
-		<a class="navbar-brand" href="/">Home</a>
+		<a class="navbar-brand" href="/">Phoodable</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
 		</button>
@@ -42,7 +42,7 @@
   <div class="my-container">
     <h1>What would you like to eat?</h1>
   </div>
-
+  <div id="loading"></div>
 	<!-- Search form (term, city, button) -->
 	<form class="container-form" action="info/" method="post" id="needs-validation" novalidate> {% csrf_token %}
 		<div class="form-row">
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<div class="col">
-				<button type="submit" class="btn btn-danger">Submit</button>
+				<button type="submit" onclick="loading();" class="btn btn-danger">Submit</button>
 			</div>
 		</div>
 		<!-- Filter by -->
@@ -109,8 +109,31 @@
 				<div class="invalid-feedback">Please provide a valid city</div>
 			</div>
 			<div class="col-6">
-				<button type="submit" class="btn btn-danger">I'm Feeling Lucky</button>
+				<button type="submit" onclick="loading();" class="btn btn-danger">I'm Feeling Lucky</button>
 			</div>
+			<br>
+			<br>
+			<div id="container-desc">
+				<h4>Welcome to Phoodable.</h4>
+				<br>
+				<br>
+				<p-desc>
+				<p id="t1">We decide for you!</p>
+					<p class="desc1">
+						Based on your search term and location, we find restaurants on Yelp that most suits your cravings.
+					</p>
+				<p id='t2'>Find new places!</p>
+					<p class ='desc2'>
+						Discover new restaurants on Yelp that you have never visited; maybe even find your new favorite spot!
+					</p>
+				<p id='t3'>Feeling Lucky?</p>
+					<p class ='desc3'>
+						Just enter a location and we will randomly provide you with a restaurant recommendation.
+					</p>
+				</p-desc>
+			</div>
+		</div>
+
 	</form>
 
 </main>
@@ -145,6 +168,12 @@ button.onclick = function() {
     }, false);
   }, false);
 })();
+
+//javascript function to handle showing/hiding content and loading animation
+function loading(){
+    $("#loading").show();
+    $(".container-form").hide();       
+}
 
 // Short script for allowing only selection of 1 filter for rating filter
 $('input[name="group2[]"]').on('change', function() {
