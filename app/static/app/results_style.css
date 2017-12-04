@@ -26,9 +26,15 @@ h4 {
 	display:inline;
 }
 
-#container-bttns .btn{
-    width:210px;
+
+div#loading {
+	position: fixed; /* or absolute */
+  	top: 30%;
+ 	left: 44%;
+    width: 400px;
+    height: 400px;
+    background: url("Rolling.svg") no-repeat;
+    cursor: wait;
+    display:none;
 }
-
-
 

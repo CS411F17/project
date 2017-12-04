@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="col">
-			<button type="submit" class="btn btn-danger">Submit</button>
+			<button type="submit" onclick="loading();" class="btn btn-danger">Submit</button>
 		</div>
 	</div>
 	<input type='button' id='filter-button' class="btn btn-link" value='Filter by...'>
@@ -82,11 +82,13 @@
 		</div>
 	<h4> Showing results for {{term}} in {{city}}... </h4>
 	<hr style= 'display: block;width: 62%; margin-left: 333px;' />
-</form>
 
+</form>
+	<div id="loading"></div>
 <!-- Restaurants display -->
+	<div class="container-test">
 	{% for restaurant_id, restaurant in restaurants.items %}
-		<div class="container">
+		<div class="container" id="container-1">
 		<p>
 		<b>Name:</b> {{restaurant.name}} </br>
 		<b>Address:</b> {{restaurant.location.address1}} {{restaurant.location.city}}, {{restaurant.location.state}} {{restaurant.location.zip_code}} </br>
@@ -101,10 +103,10 @@
 			<form id="container-bttn-1" action="/restaurants/final/" method="post" 
 			style="position: relative;float:right;margin-right: -30px;margin-top: -260px;"> {% csrf_token %}
 				<input type = "hidden" name = "restaurant" value="{{ restaurant }}"/>
-				<button type="submit-1" class="btn btn-primary btn-lg">I'd Like to Eat Here</button>
+				<button type="submit-1" class="btn btn-primary btn-lg" style="width:210px;">I'd Like to Eat Here</button>
 			</form>
 			<div class="container-bttn-2" style="position: relative;float:right;margin-top: -190px;margin-right: -30px;">
-				<button id="button-3" class="btn btn-danger btn-lg"> I'm Not Interested </button>
+				<button id="button-3" class="btn btn-danger btn-lg" style="width:210px;"> I'm Not Interested </button>
 			</div>
 		</div>
 		</br>
@@ -113,6 +115,7 @@
 		</p>
 		</div>
 	{% endfor %}
+	</div>
 
 </body>
 <script>
@@ -148,7 +151,13 @@ $('input[name="group2[]"]').on('change', function() {
     $('input[name="group2[]"]').not(this).prop('checked', false);
 });
 
+//javascript function to handle showing/hiding content and loading animation
+function loading(){
+    $("#loading").show();
+    $(".container-test").hide();       
+}
 
+//fadeout animation
 $(".container-bttn-2").click(function(){
 	$(this).parent().parent().fadeOut(800, function() { $(this).remove(); });
 });

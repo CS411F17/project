@@ -40,6 +40,47 @@ h3 {
 	display:inline;
 }
 
+h4 {
+	font-size: 30px;
+	position: absolute;
+	margin-top: 200px;
+	width: 500px;
+    margin-left: -670px;
+    display:inline-block;
+}
+
+p-desc {
+	position: relative;
+	margin-left: -665px;
+	margin-top: 220px;
+	display:inline-block;
+}
+
+p.desc1  {
+	position: absolute;
+    width: 210px;
+    margin-right: 50px;
+    margin-top: 0px;
+    display:inline-block;
+}
+
+p.desc2  {
+	position: absolute;
+    width: 210px;
+    margin-right: 50px;
+    margin-top: 0px;
+    display:inline-block;
+    left:400px;
+}
+
+p.desc3  {
+	position: absolute;
+    width: 210px;
+    margin-right: 50px;
+    margin-top: 0px;
+    display:inline-block;
+    left:780px;
+}
 
 .container-form{
 	padding-top:50px;
@@ -50,4 +91,47 @@ h3 {
 	top:6px;
 	left:8px;
 	display:inline;
+}
+
+#container-desc{
+	position: absolute;
+	display:block;
+	left:58%;
+}
+
+#t1{
+	position: relative;
+	font-weight: bold;
+	font-size: 20px;
+	left:0px;
+	width:300px;
+}
+
+#t2{
+	position: absolute;
+	font-weight: bold;
+	font-size: 20px;
+	left:400px;
+	width:300px;
+	top:0px;
+}
+
+#t3{
+	position: absolute;
+	font-weight: bold;
+	font-size: 20px;
+	left:780px;
+	width:300px;
+	top:0px;
+}
+
+div#loading {
+	position: fixed; /* or absolute */
+  	top: 30%;
+ 	left: 44%;
+    width: 400px;
+    height: 400px;
+    background: url("Rolling.svg") no-repeat;
+    cursor: wait;
+    display:none;
 }
