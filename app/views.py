@@ -20,7 +20,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.parse import urlencode
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('VIEWS')
 
 dirname = os.path.dirname(os.path.realpath(__file__))
@@ -165,11 +165,11 @@ def pure_luck(request):
 
     restaurants = yelp_call(term, location)
     single = restaurants[random.choice(list(restaurants.keys()))]
-    import pdb
-    pdb.set_trace()
+    # import pdb
+    # pdb.set_trace()
     response = {
         'restaurants': [single],  # XXX: Don't do this :)
-        'location': data[0],
+        'city': data[0],
         'term': data[1],
     }
 
