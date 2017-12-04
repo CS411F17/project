@@ -164,11 +164,14 @@ def pure_luck(request):
     save_user_request(data)
 
     restaurants = yelp_call(term, location)
-    single = restaurants[random.choice(list(restaurants.keys()))]
-    # import pdb
-    # pdb.set_trace()
+    key = random.choice(list(restaurants.keys()))
+    single = restaurants[key]
+
+    # XXX: Refactor this
     response = {
-        'restaurants': [single],  # XXX: Don't do this :)
+        'restaurants': {
+            key: single,
+        },
         'city': data[0],
         'term': data[1],
     }
