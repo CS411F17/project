@@ -1,9 +1,9 @@
 # Phoodable
 Phoodable is a web application that aims to help users decide a restaurant to visit by offering 2 features: 
 
-  • Regular Search: User enters term + location and most relevant restaurants is returned
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Regular Search: User enters term + location and most relevant restaurants is returned
   
-  • "I'm Feeling Lucky": User simply enters a location and a single restaurant is returned
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• "I'm Feeling Lucky": User simply enters a location and a single restaurant is returned
   
 Phoodable requires authentication through Facebook and uses Yelp Fusion API to generate restaurants.
 
