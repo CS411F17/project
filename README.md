@@ -1,12 +1,10 @@
-# CS411F17 Project
+# Phoodable
+
+![Output sample](https://github.com/CS411F17/Phoodable/blob/master/documentations/phoodablegif.gif)
 
 We'll be using [Django](https://www.djangoproject.com/) for our project, running Python 3.6
 
 ## Setting up a development environment
-
-This is the Entity Relationship Diagram
-
-![ERD](https://github.com/CS411F17/project/blob/master/ERD.png)
 
 ### macOS
 
