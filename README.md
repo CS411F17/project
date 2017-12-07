@@ -1,6 +1,12 @@
 # Phoodable
+Phoodable is a web application that aims to help users decide a restaurant to visit by offering 2 features: 
+  • Regular Search: User enters term + location and most relevant restaurants is returned
+  • "I'm Feeling Lucky": User simply enters a location and a single restaurant is returned
+Phoodable requires authentication through Facebook and uses Yelp Fusion API to generate restaurants.
 
-![Output sample](https://github.com/CS411F17/Phoodable/blob/master/documentations/phoodablegif.gif)
+<p align="center">
+  <img src="https://github.com/CS411F17/Phoodable/blob/master/documentations/phoodablegif.gif">
+</p>
 
 We'll be using [Django](https://www.djangoproject.com/) for our project, running Python 3.6
 
